@@ -8,7 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-<%@ include file="header.jsp" %>
+<%@ include file="headerAdmin.jsp" %>
 </br></br><h3>Add new voting:</h3>
 <form action="addVoting" method="post" class="form-horizontal">
     <label for="name" class="control-label col-sm-2">Voting's title:</label>

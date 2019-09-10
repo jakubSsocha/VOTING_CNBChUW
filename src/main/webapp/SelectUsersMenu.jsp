@@ -9,7 +9,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-<%@ include file="header.jsp" %>
+<%@ include file="headerAdmin.jsp" %>
 <form action="createResult" method="post">
 <input type="hidden" value="${voting.voting_id}" name="voting_id">
 <h3>Dodaj użytkowników do głosowania</h3>

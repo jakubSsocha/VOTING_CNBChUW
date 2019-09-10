@@ -1,4 +1,4 @@
-package Servlets.change;
+package Servlets.admin.delete;
 
 import DAO.User_DAO;
 
@@ -9,15 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/changeUserStatus")
-public class changeUserStatus extends HttpServlet {
+@WebServlet("/deleteUser")
+public class deleteUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User_DAO user_dao=new User_DAO();
-        user_dao.changeStatus(Integer.parseInt(request.getParameter("id")));
+        System.out.println(request.getParameter("id"));
+        user_dao.deleteUser(Integer.parseInt(request.getParameter("id")));
         response.sendRedirect("http://localhost:8080/voting_war_exploded/allUsers");
     }
 }

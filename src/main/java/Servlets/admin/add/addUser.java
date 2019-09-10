@@ -1,4 +1,4 @@
-package Servlets.add;
+package Servlets.admin.add;
 
 import DAO.User_DAO;
 import Objects.User;
@@ -16,8 +16,7 @@ public class addUser extends HttpServlet {
         String name=request.getParameter("user_username");
         String email=request.getParameter("user_email");
         String password=request.getParameter("user_password");
-        String status=request.getParameter("status");
-        User user=new User(name,email,password,status);
+        User user=new User(name,email,password);
         User_DAO user_dao=new User_DAO();
         user_dao.create(user);
         response.sendRedirect("http://localhost:8080/voting_war_exploded/allUsers");

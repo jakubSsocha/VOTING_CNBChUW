@@ -9,7 +9,7 @@
     <title>Results Menu</title>
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="headerAdmin.jsp" %>
 <h3>All Results:</h3>
 <table class="table table-condensed">
     <tr>

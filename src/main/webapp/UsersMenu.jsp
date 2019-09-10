@@ -8,7 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-<%@ include file="header.jsp" %>
+<%@ include file="headerAdmin.jsp" %>
 </br></br><h3>Add new user:</h3>
 <form action="addUser" method="post" class="form-horizontal">
     <label for="name" class="control-label col-sm-2">User's name:</label>
@@ -17,15 +17,6 @@
     <input id="email" type="email" name="user_email" class="form-control"></br><br>
     <label for="password" class="control-label col-sm-2">User's password:</label>
     <input id="password" type="text" name="user_password" class="form-control"></br></br>
-    <fieldset>
-        <legend>Choose user status:</legend>
-        <label class="control-label col-sm-2">active
-            <input name="status" type="radio" value="active">
-        </label>
-        <label class="control-label col-sm-2">inactive
-            <input name="status" type="radio" value="inactive">
-        </label>
-    </fieldset></br>
     <input class="btn btn-info" type='submit' value="Add user"/>
 </br></br></br>
 </form>
@@ -37,6 +28,7 @@
         <th scope="col">Email</th>
         <th scope="col">Password</th>
         <th scope="col">Status</th>
+        <th scope="col">Admin</th>
         <th scope="col" colspan="1">Edit</th>
     </tr>
     <c:forEach items="${users}" var="user" varStatus="theCount">
@@ -46,8 +38,10 @@
             <td>${user.user_email}</td>
             <td>${user.user_password}</td>
             <td>${user.status}</td>
-            <td><a href="http://localhost:8080/voting_war_exploded/changeUserStatus?id=${user.user_id}" class="btn btn-warning" role="button">Change</a>
-            <a href="#" class="btn btn-info" role="button">Change Password</a>
+            <td>${user.admin_status}</td>
+            <td><a href="http://localhost:8080/voting_war_exploded/changeUserStatus?id=${user.user_id}" class="btn btn-warning" role="button">Change Status</a>
+            <a href="#" class="btn btn-info" role="button">New Password</a>
+            <a href="#" class="btn btn-primary" role="button">Admin Status</a>
             <a href="http://localhost:8080/voting_war_exploded/deleteUser?id=${user.user_id}" class="btn btn-danger" role="button">Delete</a></td>
         </tr>
     </c:forEach>

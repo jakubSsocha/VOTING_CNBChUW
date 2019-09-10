@@ -1,4 +1,4 @@
-package Servlets.change;
+package Servlets.admin.change;
 
 import DAO.Result_DAO;
 

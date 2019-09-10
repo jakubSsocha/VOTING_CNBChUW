@@ -1,4 +1,4 @@
-package Servlets.closeVoting;
+package Servlets.admin.closeVoting;
 
 import DAO.Result_DAO;
 import Objects.Result;

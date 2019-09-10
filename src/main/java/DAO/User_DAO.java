@@ -11,11 +11,13 @@ public class User_DAO {
     Connection conn= MySqlConnector.createConnection();
 
     private static final String CREATE_USER_QUERY =
-            "INSERT INTO users(user_username, user_email, user_password, status) VALUES (?, ?, ?, ?)";
+            "INSERT INTO users(user_username, user_email, user_password, status, admin_status) VALUES (?, ?, ?,?,?)";
     private static final String READ_USER_QUERY =
             "SELECT * FROM users where user_id = ?";
+    private static final String READ_USER_EMAIL_QUERY =
+            "SELECT * FROM users where user_email = ?";
     private static final String UPDATE_USER_QUERY =
-            "UPDATE users SET user_username = ?, user_email = ?, user_password = ?, status = ? where user_id = ?";
+            "UPDATE users SET user_username = ?, user_email = ?, user_password = ? where user_id = ?";
     private static final String INACTIVE_USER_QUERY =
             "UPDATE users SET status=\"inactive\" WHERE user_id = ?";
     private static final String ACTIVE_USER_QUERY =
@@ -35,6 +37,7 @@ public class User_DAO {
             statement.setString(2, user.getUser_email());
             statement.setString(3, user.getUser_password());
             statement.setString(4,user.getStatus());
+            statement.setString(5,user.getAdmin_status());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -59,6 +62,7 @@ public class User_DAO {
             user.setUser_email(resultSet.getString("user_email"));
             user.setStatus(resultSet.getString("status"));
             user.setUser_password(resultSet.getString("user_password"));
+            user.setAdmin_status(resultSet.getString("admin_status"));
             users.add(user);
         }
         return users;
@@ -77,6 +81,8 @@ public class User_DAO {
                 User user = new User();
                 user.setUser_id(resultSet.getInt("user_id"));
                 user.setUser_username(resultSet.getString("user_username"));
+                user.setUser_email(resultSet.getString("user_email"));
+                user.setUser_password(resultSet.getString("user_password"));
                 users.add(user);
             }
             return users;
@@ -98,6 +104,27 @@ public class User_DAO {
                 user.setUser_email(resultSet.getString("user_email"));
                 user.setUser_password(resultSet.getString("user_password"));
                 user.setStatus(resultSet.getString("status"));
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User read(String email){
+        try {
+            PreparedStatement statement = conn.prepareStatement(READ_USER_EMAIL_QUERY);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                User user = new User();
+                user.setUser_id(resultSet.getInt("user_id"));
+                user.setUser_username(resultSet.getString("user_username"));
+                user.setUser_email(resultSet.getString("user_email"));
+                user.setUser_password(resultSet.getString("user_password"));
+                user.setStatus(resultSet.getString("status"));
+                user.setAdmin_status(resultSet.getString("admin_status"));
                 return user;
             }
         } catch (SQLException e) {

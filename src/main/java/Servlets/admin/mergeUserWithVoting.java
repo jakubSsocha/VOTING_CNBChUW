@@ -1,9 +1,7 @@
-package Servlets.all;
+package Servlets.admin;
 
-import DAO.Result_DAO;
 import DAO.User_DAO;
 import DAO.Voting_DAO;
-import Objects.Result;
 import Objects.User;
 import Objects.Voting;
 
@@ -15,25 +13,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/allResults")
-public class allResults extends HttpServlet {
+@WebServlet("/mergeUserWithVoting")
+public class mergeUserWithVoting extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Result_DAO result_dao=new Result_DAO();
+        int id=Integer.parseInt(request.getParameter("id"));
+        System.out.println(id);
         User_DAO user_dao=new User_DAO();
         Voting_DAO voting_dao=new Voting_DAO();
 
-        List<Result> results=result_dao.findAllAdmin();
-        List<User> users=user_dao.findAll();
-        List<Voting> votings=voting_dao.findAll();
+        List<User> users=user_dao.findAllActive();
+        Voting voting=voting_dao.read(id);
 
-        request.setAttribute("results", results);
-        request.setAttribute("users",users);
-        request.setAttribute("votings",votings);
+        request.setAttribute("voting",voting);
+        request.setAttribute("users", users);
 
-        getServletContext().getRequestDispatcher("/ResultsMenu.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/SelectUsersMenu.jsp").forward(request, response);
     }
 }

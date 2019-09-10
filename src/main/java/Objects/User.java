@@ -7,6 +7,15 @@ public class User {
     private String user_email;
     private String user_password;
     private String status;
+    private String admin_status;
+
+    public String getAdmin_status() {
+        return admin_status;
+    }
+
+    public void setAdmin_status(String admin_status) {
+        this.admin_status = admin_status;
+    }
 
     public int getUser_id() {
         return user_id;
@@ -48,11 +57,12 @@ public class User {
         this.status = status;
     }
 
-    public User(String user_username, String user_email, String user_password, String status) {
+    public User(String user_username, String user_email, String user_password) {
         this.user_username = user_username;
         this.user_email = user_email;
         this.user_password = user_password;
-        this.status = status;
+        this.status = "inactive";
+        this.admin_status="No";
     }
 
     public User(){

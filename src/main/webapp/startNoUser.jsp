@@ -1,19 +1,21 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8"%>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
 <link rel="stylesheet" href="css/index.css">
 
+<html>
 <head>
-    <title>Starting Page</title>
+    <title>Witaj w Systemie Głosowania CNBCh UW</title>
 </head>
-<%@ include file="header.jsp" %>
+<body>
+<%@ include file="/jspFiles/headers/headerStart.jsp" %>
+
 <div class="row">
-<img src="images/cnbchuw.jpg" class="img-rounded" alt="Cinque Terre">
+    <p><b>Brak użytkownika zarejestrowanego na podany adres e-mail!</b></p></br>
+    <img src="images/cnbchuw.jpg" class="img-rounded" alt="Cinque Terre">
 </div></br></br>
-<%@ include file="footer.jsp" %>
 
-
+</body>
+</html>

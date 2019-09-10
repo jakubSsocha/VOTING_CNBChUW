@@ -1,4 +1,4 @@
-package Servlets.closeVoting;
+package Servlets.admin.add;
 
 import DAO.Voting_DAO;
 import Objects.Voting;
@@ -10,17 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/generateResult")
-public class generateResult extends HttpServlet {
+@WebServlet("/addVoting")
+public class addVoting extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String title=request.getParameter("voting_title");
+        String description=request.getParameter("voting_description");
+        String status=request.getParameter("status");
+        Voting voting=new Voting(title,description,status);
+        Voting_DAO voting_dao=new Voting_DAO();
+        voting_dao.create(voting);
+        response.sendRedirect("http://localhost:8080/voting_war_exploded/allVotings");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int votingId=Integer.parseInt(request.getParameter("id"));
-        Voting_DAO voting_dao=new Voting_DAO();
-        Voting voting=voting_dao.read(votingId);
-        request.setAttribute("voting",voting);
-        getServletContext().getRequestDispatcher("/DocumentVotingResult.jsp").forward(request, response);
+
     }
 }

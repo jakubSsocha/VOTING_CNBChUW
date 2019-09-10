@@ -6,7 +6,7 @@
     <title>Voting Result</title>
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="headerAdmin.jsp" %>
 </br>
 <img src="images/logoCNBCh.jpg"></br></br>
 <p>Wyniki głosowania uchwały Rady Naukowej CNBCh UW nr:</p></br>
