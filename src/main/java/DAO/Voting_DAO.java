@@ -33,9 +33,9 @@ public class Voting_DAO {
         try {
             PreparedStatement statement =
                     conn.prepareStatement(CREATE_VOTING_QUERY, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, voting.getVoting_title());
-            statement.setString(2, voting.getVoting_description());
-            statement.setString(3, voting.getVoting_status());
+            statement.setString(1, voting.getTitle());
+            statement.setString(2, voting.getDescription());
+            statement.setString(3, voting.get);
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {

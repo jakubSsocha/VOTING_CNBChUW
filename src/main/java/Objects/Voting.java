@@ -1,61 +1,91 @@
 package Objects;
 
+import java.util.Date;
+
 public class Voting {
 
-    private int voting_id;
-    private String voting_title;
-    private String voting_description;
-    private String voting_status;
+    private int id;
+    private String title;
+    private String description;
+    private Date created;
+    private Date closed;
+    private boolean isNew;
+    private boolean isActive;
 
-    public int getVoting_id() {
-        return voting_id;
-    }
-
-    public void setVoting_id(int voting_id) {
-        this.voting_id = voting_id;
-    }
-
-    public String getVoting_title() {
-        return voting_title;
-    }
-
-    public void setVoting_title(String voting_title) {
-        this.voting_title = voting_title;
-    }
-
-    public String getVoting_description() {
-        return voting_description;
-    }
-
-    public void setVoting_description(String voting_description) {
-        this.voting_description = voting_description;
-    }
-
-    public String getVoting_status() {
-        return voting_status;
-    }
-
-    public void setVoting_status(String voting_status) {
-        this.voting_status = voting_status;
-    }
-
-    public Voting(String voting_title, String voting_description, String voting_status) {
-        this.voting_title = voting_title;
-        this.voting_description = voting_description;
-        this.voting_status = voting_status;
+    public Voting(String title, String description) {
+        this.title = title;
+        this.description = description;
     }
 
     public Voting(){
 
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getClosed() {
+        return closed;
+    }
+
+    public void setClosed(Date closed) {
+        this.closed = closed;
+    }
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(boolean aNew) {
+        isNew = aNew;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     @Override
     public String toString() {
         return "Voting{" +
-                "voting_id=" + voting_id +
-                ", voting_title='" + voting_title + '\'' +
-                ", voting_description='" + voting_description + '\'' +
-                ", voting_status='" + voting_status + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", created=" + created +
+                ", closed=" + closed +
+                ", isActive=" + isActive +
                 '}';
     }
 }

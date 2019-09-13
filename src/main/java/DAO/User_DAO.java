@@ -11,37 +11,41 @@ public class User_DAO {
     Connection conn= MySqlConnector.createConnection();
 
     private static final String CREATE_USER_QUERY =
-            "INSERT INTO users(user_username, user_email, user_password, status, admin_status) VALUES (?, ?, ?,?,?)";
+            "INSERT INTO users(username, email, password) VALUES (?, ?, ?)";
     private static final String READ_USER_QUERY =
-            "SELECT * FROM users where user_id = ?";
+            "SELECT * FROM users where id = ?";
     private static final String READ_USER_EMAIL_QUERY =
-            "SELECT * FROM users where user_email = ?";
+            "SELECT * FROM users where email = ?";
     private static final String UPDATE_USER_QUERY =
             "UPDATE users SET user_username = ?, user_email = ?, user_password = ? where user_id = ?";
     private static final String INACTIVE_USER_QUERY =
-            "UPDATE users SET status=\"inactive\" WHERE user_id = ?";
+            "UPDATE users SET isActive=0 WHERE id = ?";
     private static final String ACTIVE_USER_QUERY =
-            "UPDATE users SET status=\"active\" WHERE user_id = ?";
+            "UPDATE users SET isActive=1 WHERE id = ?";
     private static final String DELETE_USER_QUERY =
-            "DELETE FROM users WHERE user_id = ?";
+            "DELETE FROM users WHERE id = ?";
     private static final String FIND_ALL_USERS_QUERY =
             "SELECT * FROM users";
     private static final String FIND_ALL_ACTIVE_USERS =
-            "SELECT * FROM users WHERE status = \"active\"";
+            "SELECT * FROM users WHERE isActive=1";
+    private static final String FIND_ALL_ADMIN_USERS =
+            "SELECT * FROM users WHERE isAdmin=1";
+    private static final String INACTIVE_USER_ADMIN_QUERY =
+            "UPDATE users SET isAdmin=0 WHERE id = ?";
+    private static final String ACTIVE_USER_ADMIN_QUERY =
+            "UPDATE users SET isAdmin=1 WHERE id = ?";
 
     public User create(User user) {
         try {
             PreparedStatement statement =
                     conn.prepareStatement(CREATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, user.getUser_username());
-            statement.setString(2, user.getUser_email());
-            statement.setString(3, user.getUser_password());
-            statement.setString(4,user.getStatus());
-            statement.setString(5,user.getAdmin_status());
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPassword());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                user.setUser_id(resultSet.getInt(1));
+                user.setId(resultSet.getInt(1));
             }
             return user;
         } catch (SQLException e) {
@@ -57,12 +61,14 @@ public class User_DAO {
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             User user = new User();
-            user.setUser_id(resultSet.getInt("user_id"));
-            user.setUser_username(resultSet.getString("user_username"));
-            user.setUser_email(resultSet.getString("user_email"));
-            user.setStatus(resultSet.getString("status"));
-            user.setUser_password(resultSet.getString("user_password"));
-            user.setAdmin_status(resultSet.getString("admin_status"));
+            user.setId(resultSet.getInt("id"));
+            user.setUsername(resultSet.getString("username"));
+            user.setEmail(resultSet.getString("email"));
+            user.setPassword(resultSet.getString("password"));
+            user.setAdded(resultSet.getDate("added"));
+            user.setNew(setBooleanValue(resultSet.getInt("isNew")));
+            user.setActive(setBooleanValue(resultSet.getInt("isActive")));
+            user.setAdmin(setBooleanValue(resultSet.getInt("isAdmin")));
             users.add(user);
         }
         return users;
@@ -79,10 +85,38 @@ public class User_DAO {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
-                user.setUser_id(resultSet.getInt("user_id"));
-                user.setUser_username(resultSet.getString("user_username"));
-                user.setUser_email(resultSet.getString("user_email"));
-                user.setUser_password(resultSet.getString("user_password"));
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setAdded(resultSet.getDate("added"));
+                user.setNew(setBooleanValue(resultSet.getInt("isNew")));
+                user.setActive(setBooleanValue(resultSet.getInt("isActive")));
+                user.setAdmin(setBooleanValue(resultSet.getInt("isAdmin")));
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<User> findAllAdmin() {
+        try {
+            List<User> users = new ArrayList<>();
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_ADMIN_USERS);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setAdded(resultSet.getDate("added"));
+                user.setNew(setBooleanValue(resultSet.getInt("isNew")));
+                user.setActive(setBooleanValue(resultSet.getInt("isActive")));
+                user.setAdmin(setBooleanValue(resultSet.getInt("isAdmin")));
                 users.add(user);
             }
             return users;
@@ -99,11 +133,14 @@ public class User_DAO {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 User user = new User();
-                user.setUser_id(resultSet.getInt("user_id"));
-                user.setUser_username(resultSet.getString("user_username"));
-                user.setUser_email(resultSet.getString("user_email"));
-                user.setUser_password(resultSet.getString("user_password"));
-                user.setStatus(resultSet.getString("status"));
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setAdded(resultSet.getDate("added"));
+                user.setNew(setBooleanValue(resultSet.getInt("isNew")));
+                user.setActive(setBooleanValue(resultSet.getInt("isActive")));
+                user.setAdmin(setBooleanValue(resultSet.getInt("isAdmin")));
                 return user;
             }
         } catch (SQLException e) {
@@ -119,12 +156,14 @@ public class User_DAO {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 User user = new User();
-                user.setUser_id(resultSet.getInt("user_id"));
-                user.setUser_username(resultSet.getString("user_username"));
-                user.setUser_email(resultSet.getString("user_email"));
-                user.setUser_password(resultSet.getString("user_password"));
-                user.setStatus(resultSet.getString("status"));
-                user.setAdmin_status(resultSet.getString("admin_status"));
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setAdded(resultSet.getDate("added"));
+                user.setNew(setBooleanValue(resultSet.getInt("isNew")));
+                user.setActive(setBooleanValue(resultSet.getInt("isActive")));
+                user.setAdmin(setBooleanValue(resultSet.getInt("isAdmin")));
                 return user;
             }
         } catch (SQLException e) {
@@ -136,12 +175,12 @@ public class User_DAO {
     public void changeStatus(int user_id) {
         try {
             User user=read(user_id);
-            if(user.getStatus().equals("active")){
+            if(user.isActive()){
                 PreparedStatement statement =
                         conn.prepareStatement(INACTIVE_USER_QUERY);
                 statement.setInt(1, user_id);
                 statement.executeUpdate();
-            } else if (user.getStatus().equals("inactive")){
+            } else{
                 PreparedStatement statement =
                         conn.prepareStatement(ACTIVE_USER_QUERY);
                 statement.setInt(1, user_id);
@@ -150,7 +189,26 @@ public class User_DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException n){
+        }
+    }
 
+    public void changeAdminStatus(int user_id){
+        try {
+            User user=read(user_id);
+            if(user.isAdmin()){
+                PreparedStatement statement =
+                        conn.prepareStatement(INACTIVE_USER_ADMIN_QUERY);
+                statement.setInt(1, user_id);
+                statement.executeUpdate();
+            } else{
+                PreparedStatement statement =
+                        conn.prepareStatement(ACTIVE_USER_ADMIN_QUERY);
+                statement.setInt(1, user_id);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException n){
         }
     }
 
@@ -163,5 +221,12 @@ public class User_DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean setBooleanValue(int value){
+        if(value == 0){
+            return false;
+        }
+        return true;
     }
 }

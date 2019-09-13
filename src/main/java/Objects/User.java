@@ -1,81 +1,101 @@
 package Objects;
 
+import java.util.Date;
+
 public class User {
 
-    private int user_id;
-    private String user_username;
-    private String user_email;
-    private String user_password;
-    private String status;
-    private String admin_status;
+    private int id;
+    private String username;
+    private String email;
+    private String password;
+    private Date added;
+    private boolean isNew;
+    private boolean isActive;
+    private boolean isAdmin;
 
-    public String getAdmin_status() {
-        return admin_status;
-    }
-
-    public void setAdmin_status(String admin_status) {
-        this.admin_status = admin_status;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getUser_username() {
-        return user_username;
-    }
-
-    public void setUser_username(String user_username) {
-        this.user_username = user_username;
-    }
-
-    public String getUser_email() {
-        return user_email;
-    }
-
-    public void setUser_email(String user_email) {
-        this.user_email = user_email;
-    }
-
-    public String getUser_password() {
-        return user_password;
-    }
-
-    public void setUser_password(String user_password) {
-        this.user_password = user_password;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public User(String user_username, String user_email, String user_password) {
-        this.user_username = user_username;
-        this.user_email = user_email;
-        this.user_password = user_password;
-        this.status = "inactive";
-        this.admin_status="No";
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     public User(){
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getAdded() {
+        return added;
+    }
+
+    public void setAdded(Date added) {
+        this.added = added;
+    }
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(boolean aNew) {
+        isNew = aNew;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "user_id=" + user_id +
-                ", user_username='" + user_username + '\'' +
-                ", user_email='" + user_email + '\'' +
-                ", user_password='" + user_password + '\'' +
-                ", status='" + status + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", added=" + added +
+                ", isActive=" + isActive +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 }

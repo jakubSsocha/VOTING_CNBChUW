@@ -1,19 +1,34 @@
 package Objects;
 
+import java.util.Date;
+
 public class Result {
 
-    private int result_id;
+    private int id;
     private int voting_id;
     private int user_id;
-    private String result_vote;
-    private String status;
+    private String vote;
+    private boolean isNew;
+    private boolean isActive;
+    private Date created;
+    private Date modified;
 
-    public int getResult_id() {
-        return result_id;
+    public Result(int voting_id, int user_id, String vote) {
+        this.voting_id = voting_id;
+        this.user_id = user_id;
+        this.vote = vote;
     }
 
-    public void setResult_id(int result_id) {
-        this.result_id = result_id;
+    public Result(){
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getVoting_id() {
@@ -32,47 +47,54 @@ public class Result {
         this.user_id = user_id;
     }
 
-    public String getResult_vote() {
-        return result_vote;
+    public String getVote() {
+        return vote;
     }
 
-    public void setResult_vote(String result_vote) {
-        this.result_vote = result_vote;
+    public void setVote(String vote) {
+        this.vote = vote;
     }
 
-    public String getStatus() {
-        return status;
+    public boolean isNew() {
+        return isNew;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setNew(boolean aNew) {
+        isNew = aNew;
     }
 
-    public Result(int voting_id, int user_id, String result_vote, String status) {
-        this.voting_id = voting_id;
-        this.user_id = user_id;
-        this.result_vote = result_vote;
-        this.status = status;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public Result(){
-
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
-    public Result(int voting_id, int user_id, String status) {
-        this.voting_id = voting_id;
-        this.user_id = user_id;
-        this.status = status;
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
     }
 
     @Override
     public String toString() {
         return "Result{" +
-                "result_id=" + result_id +
+                "id=" + id +
                 ", voting_id=" + voting_id +
                 ", user_id=" + user_id +
-                ", result_vote='" + result_vote + '\'' +
-                ", status='" + status + '\'' +
+                ", vote='" + vote + '\'' +
+                ", modified=" + modified +
                 '}';
     }
 }
