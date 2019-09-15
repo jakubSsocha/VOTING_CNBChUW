@@ -13,6 +13,7 @@
 <%@ include file="/jspFiles/headers/headerStart.jsp" %>
 
 <div class="row">
+    <p><b>${text}</b></p></br>
     <img src="images/cnbchuw.jpg" class="img-rounded" alt="Cinque Terre">
 </div></br></br>
 

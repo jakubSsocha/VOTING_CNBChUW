@@ -4,10 +4,17 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <servlet>
+        <servlet-name>ApStart</servlet-name>
+        <servlet-class>Servlets.ApStart</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ApStart</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
-        <welcome-file>
-            start.jsp
-        </welcome-file>
+        <welcome-file>ApStart</welcome-file>
     </welcome-file-list>
 
 </web-app>
