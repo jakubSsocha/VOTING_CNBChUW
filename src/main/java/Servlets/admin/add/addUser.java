@@ -13,9 +13,9 @@ import java.io.IOException;
 @WebServlet("/addUser")
 public class addUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name=request.getParameter("user_username");
-        String email=request.getParameter("user_email");
-        String password=request.getParameter("user_password");
+        String name=request.getParameter("name");
+        String email=request.getParameter("email");
+        String password=request.getParameter("password");
         User user=new User(name,email,password);
         User_DAO user_dao=new User_DAO();
         user_dao.create(user);

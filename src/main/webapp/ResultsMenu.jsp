@@ -10,33 +10,33 @@
 </head>
 <body>
 <%@ include file="headerAdmin.jsp" %>
-<h3>All Results:</h3>
+<h3>Wyniki aktywnych głosowań:</h3>
 <table class="table table-condensed">
     <tr>
         <th scope="col">Lp.</th>
-        <th scope="col">Voting Title</th>
-        <th scope="col">User Name</th>
-        <th scope="col">vote</th>
+        <th scope="col">Nazwa Głosowania</th>
+        <th scope="col">Nazwa Użytkownika</th>
+        <th scope="col">Głos</th>
         <th scope="col">Status</th>
-        <th scope="col">Edit</th>
+        <th scope="col">Edycja</th>
     </tr>
     <c:forEach items="${results}" var="result" varStatus="theCount">
         <tr>
             <td>${theCount.count}</td>
             <c:forEach items="${votings}" var="voting">
-                <c:if test="${result.voting_id == voting.voting_id}">
-                    <td>${voting.voting_title}</td>
+                <c:if test="${result.voting_id == voting.id}">
+                    <td>${voting.title}</td>
                 </c:if>
             </c:forEach>
             <c:forEach items="${users}" var="user">
-                <c:if test="${result.user_id == user.user_id}">
-                    <td>${user.user_username}</td>
+                <c:if test="${result.user_id == user.id}">
+                    <td>${user.username}</td>
                 </c:if>
             </c:forEach>
-            <td>${result.result_vote}</td>
-            <td>${result.status}</td>
-            <td><a href="http://localhost:8080/voting_war_exploded/changeResultStatus?id=${result.result_id}" class="btn btn-warning" role="button">Change</a>
-            <a href="http://localhost:8080/voting_war_exploded/deleteResult?id=${result.result_id}" class="btn btn-danger" role="button">Delete</a></td>
+            <td>${result.vote}</td>
+            <td>${result.isActive ? "aktywne" : "nieaktywne"}</td>
+            <td><a href="http://localhost:8080/voting_war_exploded/changeResultStatus?id=${result.id}" class="btn btn-warning" role="button">Change</a>
+            <a href="http://localhost:8080/voting_war_exploded/deleteResult?id=${result.id}" class="btn btn-danger" role="button">Delete</a></td>
         </tr>
     </c:forEach>
 </table>

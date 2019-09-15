@@ -1,7 +1,6 @@
-package Servlets.admin.add;
+package Servlets.admin.change;
 
-import DAO.Voting_DAO;
-import Objects.Voting;
+import DAO.User_DAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,18 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/addVoting")
-public class addVoting extends HttpServlet {
+@WebServlet("/changeAdminStatus")
+public class changeAdminStatus extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String title=request.getParameter("title");
-        String description=request.getParameter("description");
-        Voting voting=new Voting(title,description);
-        Voting_DAO voting_dao=new Voting_DAO();
-        voting_dao.create(voting);
-        response.sendRedirect("http://localhost:8080/voting_war_exploded/allVotings");
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        User_DAO user_dao=new User_DAO();
+        user_dao.changeAdminStatus(Integer.parseInt(request.getParameter("id")));
+        response.sendRedirect("http://localhost:8080/voting_war_exploded/allUsers");
     }
 }

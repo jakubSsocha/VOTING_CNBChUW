@@ -10,12 +10,14 @@
 </br>
 <img src="images/logoCNBCh.jpg"></br></br>
 <p>Wyniki głosowania uchwały Rady Naukowej CNBCh UW nr:</p></br>
-<h3>${voting.voting_title}</h3></br>
+<h3>${voting.title}</h3></br>
+<p>z dnia ${voting.created}</p></br>
 <p>Dotyczącej:</p></br>
-<h3>${voting.voting_description}</h3></br></br>
+<h4>${voting.description}</h4></br></br>
 <p>to:</p></br></br>
-<div>Za:</div>
-<div>Przeciw:</div>
-<div>Wstrzymujących się:</div></br>
+<p>Za:</p>
+<p>Przeciw:</p>
+<p>Wstrzymujących się:</p></br></br></br>
+<p>Głosowanie zakończono dnia: ${voting.closedDate}</p>
 </body>
 </html>

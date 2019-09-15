@@ -19,8 +19,10 @@ public class allUsers extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User_DAO user_dao=new User_DAO();
-        List<User> users=user_dao.findAll();
-        request.setAttribute("users", users);
+        List<User> usersOld=user_dao.findAllOld();
+        List<User> usersNew=user_dao.findAllNew();
+        request.setAttribute("usersOld", usersOld);
+        request.setAttribute("usersNew",usersNew);
         getServletContext().getRequestDispatcher("/UsersMenu.jsp").forward(request, response);
     }
 }

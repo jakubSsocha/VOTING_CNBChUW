@@ -16,8 +16,8 @@ public class User_DAO {
             "SELECT * FROM users where id = ?";
     private static final String READ_USER_EMAIL_QUERY =
             "SELECT * FROM users where email = ?";
-    private static final String UPDATE_USER_QUERY =
-            "UPDATE users SET user_username = ?, user_email = ?, user_password = ? where user_id = ?";
+    private static final String UPDATE_USER_OLD =
+            "UPDATE users SET isNew=0 WHERE id = ?";
     private static final String INACTIVE_USER_QUERY =
             "UPDATE users SET isActive=0 WHERE id = ?";
     private static final String ACTIVE_USER_QUERY =
@@ -28,6 +28,10 @@ public class User_DAO {
             "SELECT * FROM users";
     private static final String FIND_ALL_ACTIVE_USERS =
             "SELECT * FROM users WHERE isActive=1";
+    private static final String FIND_ALL_NEW_USERS_QUERY =
+            "SELECT * FROM users WHERE isNew=1";
+    private static final String FIND_ALL_OLD_USERS_QUERY =
+            "SELECT * FROM users WHERE isNew=0";
     private static final String FIND_ALL_ADMIN_USERS =
             "SELECT * FROM users WHERE isAdmin=1";
     private static final String INACTIVE_USER_ADMIN_QUERY =
@@ -36,22 +40,26 @@ public class User_DAO {
             "UPDATE users SET isAdmin=1 WHERE id = ?";
 
     public User create(User user) {
+        User_DAO user_dao = new User_DAO();
+        if (!user_dao.ifUserExists(user.getEmail())) {
         try {
-            PreparedStatement statement =
-                    conn.prepareStatement(CREATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, user.getUsername());
-            statement.setString(2, user.getEmail());
-            statement.setString(3, user.getPassword());
-            statement.executeUpdate();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                user.setId(resultSet.getInt(1));
+                PreparedStatement statement =
+                        conn.prepareStatement(CREATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, user.getUsername());
+                statement.setString(2, user.getEmail());
+                statement.setString(3, user.getPassword());
+                statement.executeUpdate();
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    user.setId(resultSet.getInt(1));
+                }
+                return user;
+            } catch(SQLException e){
+                e.printStackTrace();
+                return null;
             }
-            return user;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public List<User> findAll() {
@@ -77,6 +85,54 @@ public class User_DAO {
         return null;
     }
 }
+
+    public List<User> findAllNew() {
+        try {
+            List<User> users = new ArrayList<>();
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_NEW_USERS_QUERY);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setAdded(resultSet.getDate("added"));
+                user.setNew(setBooleanValue(resultSet.getInt("isNew")));
+                user.setActive(setBooleanValue(resultSet.getInt("isActive")));
+                user.setAdmin(setBooleanValue(resultSet.getInt("isAdmin")));
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<User> findAllOld() {
+        try {
+            List<User> users = new ArrayList<>();
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_OLD_USERS_QUERY);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setAdded(resultSet.getDate("added"));
+                user.setNew(setBooleanValue(resultSet.getInt("isNew")));
+                user.setActive(setBooleanValue(resultSet.getInt("isActive")));
+                user.setAdmin(setBooleanValue(resultSet.getInt("isAdmin")));
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public List<User> findAllActive() {
         try {
@@ -175,6 +231,13 @@ public class User_DAO {
     public void changeStatus(int user_id) {
         try {
             User user=read(user_id);
+            if(user.isNew()){
+                PreparedStatement statement =
+                        conn.prepareStatement(UPDATE_USER_OLD);
+                statement.setInt(1, user_id);
+                statement.executeUpdate();
+                return;
+            }
             if(user.isActive()){
                 PreparedStatement statement =
                         conn.prepareStatement(INACTIVE_USER_QUERY);
@@ -225,6 +288,15 @@ public class User_DAO {
 
     private boolean setBooleanValue(int value){
         if(value == 0){
+            return false;
+        }
+        return true;
+    }
+
+    private boolean ifUserExists(String email){
+        User_DAO user_dao=new User_DAO();
+        User controlUser=user_dao.read(email);
+        if (controlUser==null){
             return false;
         }
         return true;

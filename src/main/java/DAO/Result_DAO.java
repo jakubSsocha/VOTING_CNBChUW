@@ -11,21 +11,21 @@ public class Result_DAO {
     Connection conn= MySqlConnector.createConnection();
 
     private static final String CREATE_RESULT_QUERY =
-            "INSERT INTO results(voting_id, user_id, result_vote, status) VALUES (?, ?, ?, ?)";
+            "INSERT INTO results(voting_id, user_id, vote) VALUES (?, ?, ?)";
     private static final String READ_RESULT_QUERY =
-            "SELECT * FROM results WHERE result_id = ?";
+            "SELECT * FROM results WHERE id = ?";
     private static final String UPDATE_RESULT_QUERY =
             "UPDATE results SET result_vote = ? status = ? WHERE user_id = ? AND status = \"active\" ";
     private static final String INACTIVE_RESULT_QUERY =
-            "UPDATE results SET status=\"inactive\" WHERE result_id = ?";
+            "UPDATE results SET isActive=0 WHERE id = ?";
     private static final String ACTIVE_RESULT_QUERY =
-            "UPDATE results SET status=\"active\" WHERE result_id = ?";
+            "UPDATE results SET isActive=1 WHERE id = ?";
     private static final String FIND_ALL_RESULTS_QUERY =
-            "SELECT * FROM results ORDER BY voting_id ASC";
-    private static final String FIND_ALL_ACTIVE_RESULTS =
-            "SELECT * FROM results WHERE status = active";
+            "SELECT * FROM results ORDER BY id ASC";
+    private static final String FIND_ALL_ACTIVE_RESULTS_USER =
+            "SELECT * FROM results WHERE isAcrive=1 AND user_id = ? ORDER BY voting_id ASC";
     private static final String DELETE_RESULTS_QUERY =
-            "DELETE FROM results WHERE result_id = ?";
+            "DELETE FROM results WHERE id = ?";
 
     public List<Result> findAllAdmin() {
         try {
@@ -34,11 +34,37 @@ public class Result_DAO {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Result result=new Result();
-                result.setResult_id(resultSet.getInt("result_id"));
+                result.setId(resultSet.getInt("id"));
                 result.setVoting_id(resultSet.getInt("voting_id"));
                 result.setUser_id(resultSet.getInt("user_id"));
-                result.setResult_vote(resultSet.getString("result_vote"));
-                result.setStatus(resultSet.getString("status"));
+                result.setVote(resultSet.getString("vote"));
+                result.setActive(setBooleanValue(resultSet.getByte("isActive")));
+                result.setCreated(resultSet.getDate("created"));
+                result.setModified(resultSet.getDate("modified"));
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Result> findAllUserActive(int id) {
+        try {
+            List<Result> results = new ArrayList<>();
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_ACTIVE_RESULTS_USER);
+            statement.setInt(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Result result=new Result();
+                result.setId(resultSet.getInt("id"));
+                result.setVoting_id(resultSet.getInt("voting_id"));
+                result.setUser_id(resultSet.getInt("user_id"));
+                result.setVote(resultSet.getString("vote"));
+                result.setActive(setBooleanValue(resultSet.getByte("isActive")));
+                result.setCreated(resultSet.getDate("created"));
+                result.setModified(resultSet.getDate("modified"));
                 results.add(result);
             }
             return results;
@@ -54,12 +80,11 @@ public class Result_DAO {
                     conn.prepareStatement(CREATE_RESULT_QUERY, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, result.getVoting_id());
             statement.setInt(2, result.getUser_id());
-            statement.setString(3, result.getResult_vote());
-            statement.setString(4,result.getStatus());
+            statement.setString(3, result.getVote());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                result.setResult_id(resultSet.getInt(1));
+                result.setId(resultSet.getInt(1));
             }
             return result;
         } catch (SQLException e) {
@@ -86,11 +111,13 @@ public class Result_DAO {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Result result=new Result();
-                result.setResult_id(resultSet.getInt("result_id"));
+                result.setId(resultSet.getInt("id"));
                 result.setVoting_id(resultSet.getInt("voting_id"));
                 result.setUser_id(resultSet.getInt("user_id"));
-                result.setResult_vote(resultSet.getString("result_vote"));
-                result.setStatus(resultSet.getString("status"));
+                result.setVote(resultSet.getString("vote"));
+                result.setActive(setBooleanValue(resultSet.getByte("isActive")));
+                result.setCreated(resultSet.getDate("created"));
+                result.setModified(resultSet.getDate("modified"));
                 return result;
             }
         } catch (SQLException e) {
@@ -102,12 +129,12 @@ public class Result_DAO {
     public void changeStatus(int resultId) {
         try {
             Result result=read(resultId);
-            if(result.getStatus().equals("active")){
+            if(result.isActive()){
                 PreparedStatement statement =
                         conn.prepareStatement(INACTIVE_RESULT_QUERY);
                 statement.setInt(1, resultId);
                 statement.executeUpdate();
-            } else if (result.getStatus().equals("inactive")){
+            } else{
                 PreparedStatement statement =
                         conn.prepareStatement(ACTIVE_RESULT_QUERY);
                 statement.setInt(1, resultId);
@@ -118,6 +145,13 @@ public class Result_DAO {
         } catch (NullPointerException n){
 
         }
+    }
+
+    private boolean setBooleanValue(int value){
+        if(value == 0){
+            return false;
+        }
+        return true;
     }
 
 }

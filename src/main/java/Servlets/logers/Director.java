@@ -14,8 +14,8 @@ import java.io.IOException;
 public class Director extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sess = request.getSession();
-        String isAdminStatus = (String) sess.getAttribute("isUserAdmin");
-        if (isAdminStatus.equals("Yes")) {
+        boolean isAdminStatus = (boolean) sess.getAttribute("isUserAdmin");
+        if (isAdminStatus) {
             response.sendRedirect("http://localhost:8080/voting_war_exploded/adminMenu.jsp");
         } else {
             response.sendRedirect("http://localhost:8080/voting_war_exploded/userStart.jsp");

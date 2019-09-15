@@ -19,13 +19,14 @@ public class Logger extends HttpServlet {
 
         User_DAO user_dao = new User_DAO();
         User user = user_dao.read(email);
-        String isUserAdmin=user.getAdmin_status();
+        boolean isUserAdmin=user.isAdmin();
 
         if (user != null) {
-            if (user.getUser_password().equals(password)) {
-                if (user.getStatus().equals("active")) {
+            if (user.getPassword().equals(password)) {
+                if (user.isActive()) {
                     HttpSession sess=request.getSession();
                     sess.setAttribute("isUserAdmin",isUserAdmin);
+                    sess.setAttribute("id",user.getId());
                     getServletContext().getRequestDispatcher("/Director").forward(request, response);
                     return;
                 } else {

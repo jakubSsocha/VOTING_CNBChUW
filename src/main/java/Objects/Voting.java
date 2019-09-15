@@ -8,9 +8,10 @@ public class Voting {
     private String title;
     private String description;
     private Date created;
-    private Date closed;
+    private Date closedDate;
     private boolean isNew;
     private boolean isActive;
+    private boolean isClosed;
 
     public Voting(String title, String description) {
         this.title = title;
@@ -19,6 +20,22 @@ public class Voting {
 
     public Voting(){
 
+    }
+
+    public Date getClosedDate() {
+        return closedDate;
+    }
+
+    public void setClosedDate(Date closedDate) {
+        this.closedDate = closedDate;
+    }
+
+    public boolean isClosed() {
+        return isClosed;
+    }
+
+    public void setClosed(boolean closed) {
+        isClosed = closed;
     }
 
     public int getId() {
@@ -53,14 +70,6 @@ public class Voting {
         this.created = created;
     }
 
-    public Date getClosed() {
-        return closed;
-    }
-
-    public void setClosed(Date closed) {
-        this.closed = closed;
-    }
-
     public boolean isNew() {
         return isNew;
     }
@@ -77,6 +86,10 @@ public class Voting {
         isActive = active;
     }
 
+    public boolean getIsActive(){
+        return isActive;
+    }
+
     @Override
     public String toString() {
         return "Voting{" +
@@ -84,8 +97,10 @@ public class Voting {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", created=" + created +
-                ", closed=" + closed +
+                ", closedDate=" + closedDate +
+                ", isNew=" + isNew +
                 ", isActive=" + isActive +
+                ", isClosed=" + isClosed +
                 '}';
     }
 }

@@ -87,6 +87,14 @@ public class User {
         isAdmin = admin;
     }
 
+    public boolean getIsActive(){
+        return isActive;
+    }
+
+    public boolean getIsAdmin(){
+        return isAdmin;
+    }
+
     @Override
     public String toString() {
         return "User{" +

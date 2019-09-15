@@ -13,10 +13,9 @@ public class Result {
     private Date created;
     private Date modified;
 
-    public Result(int voting_id, int user_id, String vote) {
+    public Result(int voting_id, int user_id) {
         this.voting_id = voting_id;
         this.user_id = user_id;
-        this.vote = vote;
     }
 
     public Result(){
@@ -85,6 +84,10 @@ public class Result {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public boolean getIsActive(){
+        return isActive;
     }
 
     @Override
