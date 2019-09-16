@@ -13,13 +13,15 @@ import java.io.IOException;
 
 @WebServlet("/Logger")
 public class Logger extends HttpServlet {
+
+    private final String inactiveAccount= "Konto nieaktywne! Skontaktuj się z administratorem!";
+    private final String wrongPassword = "Sprawdź dane logowania!";
+    private final String userDoesNotExist= "Nie zarejestrowano użytkownika!";
+
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
-        final String inactiveAccount= "Konto nieaktywne! Skontaktuj się z administratorem!";
-        final String wrongPassword = "Sprawdź dane logowania!";
-        final String userDoesNotExist= "Nie zarejestrowano użytkownika!";
 
         User_DAO user_dao = new User_DAO();
         User user = user_dao.read(email);
@@ -35,12 +37,12 @@ public class Logger extends HttpServlet {
                     return;
                 } else {
                     request.setAttribute("text",inactiveAccount);
-                    response.sendRedirect("http://localhost:8080/voting_war_exploded/ApStart");
+                    getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
                     return;
                 }
             } else {
                 request.setAttribute("text",wrongPassword);
-                response.sendRedirect("http://localhost:8080/voting_war_exploded/ApStart");
+                getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
                 return;
             }
         }

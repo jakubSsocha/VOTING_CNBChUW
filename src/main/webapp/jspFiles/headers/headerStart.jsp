@@ -20,7 +20,7 @@
             <ul class="nav navbar-nav">
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="http://localhost:8080/voting_war_exploded/start.jsp">Home</a></li>
+                <li class="active"><a href="http://localhost:8080/voting_war_exploded/index.jsp">Home</a></li>
                 <li><a href="http://localhost:8080/voting_war_exploded/CreateNewUser"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
                 <li><a href="http://localhost:8080/voting_war_exploded/Logger"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
             </ul>

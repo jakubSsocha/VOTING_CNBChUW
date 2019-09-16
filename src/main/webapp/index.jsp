@@ -11,11 +11,11 @@
 </head>
 <body>
 <%@ include file="/jspFiles/headers/headerStart.jsp" %>
-
-<div class="row">
-    <p><b>${text}</b></p></br>
-    <img src="images/cnbchuw.jpg" class="img-rounded" alt="Cinque Terre">
-</div></br></br>
-
+<div>
+${paramValues.text[0]}
+</br>
+<img src="images/cnbchuw.jpg" class="img-rounde" >
+</br></br>
+</div>
 </body>
 </html>

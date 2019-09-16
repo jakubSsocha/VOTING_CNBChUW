@@ -18,7 +18,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="http://localhost:8080/voting_war_exploded/userStart.jsp">Home</a></li>
                 <li><a href="http://localhost:8080/voting_war_exploded/UserResults">Zagłosuj</a></li>
-                <li><a href="#">Historia Głosowań</a></li>
+                <li><a href="http://localhost:8080/voting_war_exploded/VotingsHistory">Historia Głosowań</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="http://localhost:8080/voting_war_exploded/Logout"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>

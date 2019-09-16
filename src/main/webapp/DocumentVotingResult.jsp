@@ -6,7 +6,6 @@
     <title>Voting Result</title>
 </head>
 <body>
-<%@ include file="headerAdmin.jsp" %>
 </br>
 <img src="images/logoCNBCh.jpg"></br></br>
 <p>Wyniki głosowania uchwały Rady Naukowej CNBCh UW nr:</p></br>
@@ -15,9 +14,9 @@
 <p>Dotyczącej:</p></br>
 <h4>${voting.description}</h4></br></br>
 <p>to:</p></br></br>
-<p>Za:</p>
-<p>Przeciw:</p>
-<p>Wstrzymujących się:</p></br></br></br>
+<p>Za: ${TAK}</p>
+<p>Przeciw: ${NIE}</p>
+<p>Wstrzymujących się: ${WST}</p></br></br></br>
 <p>Głosowanie zakończono dnia: ${voting.closedDate}</p>
 </body>
 </html>

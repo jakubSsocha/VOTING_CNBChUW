@@ -73,7 +73,6 @@
         <th scope="col">Lp.</th>
         <th scope="col">Tytuł</th>
         <th scope="col">Opis</th>
-        <th scope="col">Status</th>
         <th scope="col">Data utworzenia</th>
         <th scope="col">Data zamknięcia</th>
         <th scope="col" colspan="2">Edytuj</th>
@@ -83,7 +82,6 @@
             <td>${theCount.count}</td>
             <td>${voting.title}</td>
             <td>${voting.description}</td>
-            <td>${voting.isActive ? "aktywne" : "nieaktywne"}</td>
             <td>${voting.created}</td>
             <td>${voting.closedDate}</td>
             <td><a href="http://localhost:8080/voting_war_exploded/generateResult?id=${voting.id}" class="btn btn-primary" role="button">Pokaż wyniki</a>
