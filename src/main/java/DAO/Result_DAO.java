@@ -19,7 +19,7 @@ public class Result_DAO {
     private static final String INACTIVE_RESULT_QUERY =
             "UPDATE results SET isActive=0 WHERE id = ?";
     private static final String ACTIVE_RESULT_QUERY =
-            "UPDATE results SET isActive=1 WHERE id = ?";
+            "UPDATE results SET isActive=1, vote=null WHERE id = ?";
     private static final String FIND_ALL_RESULTS_QUERY =
             "SELECT * FROM results ORDER BY id ASC";
     private static final String FIND_ALL_RESULTS_BY_VOTING_ID_QUERY =
@@ -119,14 +119,17 @@ public class Result_DAO {
         }
     }
 
-    public void delete(int resultId){
-        try {
-            PreparedStatement statement =
-                    conn.prepareStatement(DELETE_RESULTS_QUERY);
-            statement.setInt(1, resultId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void delete(int resultId) {
+        Result result = read(resultId);
+        if (result.getVote() == null) {
+            try {
+                PreparedStatement statement =
+                        conn.prepareStatement(DELETE_RESULTS_QUERY);
+                statement.setInt(1, resultId);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
