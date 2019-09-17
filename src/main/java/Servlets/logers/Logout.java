@@ -21,6 +21,6 @@ public class Logout extends HttpServlet {
         HttpSession session=request.getSession();
         session.invalidate();
         request.setAttribute("text",text);
-        response.sendRedirect("http://localhost:8080/voting_war_exploded/index.jsp");
+        getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
     }
 }

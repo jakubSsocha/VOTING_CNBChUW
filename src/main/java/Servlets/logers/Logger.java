@@ -37,7 +37,7 @@ public class Logger extends HttpServlet {
                     return;
                 } else {
                     request.setAttribute("text",inactiveAccount);
-                    getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+                    getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);;
                     return;
                 }
             } else {
