@@ -14,6 +14,8 @@ public class Result_DAO {
             "INSERT INTO results(voting_id, user_id, vote) VALUES (?, ?, ?)";
     private static final String READ_RESULT_QUERY =
             "SELECT * FROM results WHERE id = ?";
+    private static final String READ_RESULT_QUERY_VOTING_USER =
+            "SELECT * FROM results WHERE voting_id = ? AND user_id = ?";
     private static final String VOTE_RESULT_QUERY =
             "UPDATE results SET vote = ?, isActive=0 WHERE id = ?";
     private static final String INACTIVE_RESULT_QUERY =
@@ -101,22 +103,25 @@ public class Result_DAO {
     }
 
     public Result create(Result result) {
-        try {
-            PreparedStatement statement =
-                    conn.prepareStatement(CREATE_RESULT_QUERY, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, result.getVoting_id());
-            statement.setInt(2, result.getUser_id());
-            statement.setString(3, result.getVote());
-            statement.executeUpdate();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                result.setId(resultSet.getInt(1));
+        if (resultDoesNotExist(result.getVoting_id(), result.getUser_id())) {
+            try {
+                PreparedStatement statement =
+                        conn.prepareStatement(CREATE_RESULT_QUERY, Statement.RETURN_GENERATED_KEYS);
+                statement.setInt(1, result.getVoting_id());
+                statement.setInt(2, result.getUser_id());
+                statement.setString(3, result.getVote());
+                statement.executeUpdate();
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    result.setId(resultSet.getInt(1));
+                }
+                return result;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
             }
-            return result;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public void delete(int resultId) {
@@ -167,6 +172,29 @@ public class Result_DAO {
         return null;
     }
 
+    public Result read(int votingId, int userId) {
+        try {
+            PreparedStatement statement = conn.prepareStatement(READ_RESULT_QUERY_VOTING_USER);
+            statement.setInt(1, votingId);
+            statement.setInt(2, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Result result=new Result();
+                result.setId(resultSet.getInt("id"));
+                result.setVoting_id(resultSet.getInt("voting_id"));
+                result.setUser_id(resultSet.getInt("user_id"));
+                result.setVote(resultSet.getString("vote"));
+                result.setActive(setBooleanValue(resultSet.getByte("isActive")));
+                result.setCreated(resultSet.getDate("created"));
+                result.setModified(resultSet.getDate("modified"));
+                return result;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void changeStatus(int resultId) {
         try {
             Result result=read(resultId);
@@ -193,6 +221,14 @@ public class Result_DAO {
             return false;
         }
         return true;
+    }
+
+    private boolean resultDoesNotExist(int voting_id, int user_id){
+        Result result=read(voting_id,user_id);
+        if (result == null){
+            return true;
+        }
+        return false;
     }
 
 }

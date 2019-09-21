@@ -38,6 +38,9 @@ public class User_DAO {
             "UPDATE users SET isAdmin=0 WHERE id = ?";
     private static final String ACTIVE_USER_ADMIN_QUERY =
             "UPDATE users SET isAdmin=1 WHERE id = ?";
+    private static final String ALL_ACTIVE_USERS_ABLE_TO_MERGE_WITH_VOTING =
+            "SELECT * FROM users LEFT JOIN results ON users.id = results.user_id WHERE users.isActive=1 AND voting_id !=? OR voting_id IS NULL;";
+
 
     public User create(User user) {
         User_DAO user_dao = new User_DAO();
@@ -158,6 +161,25 @@ public class User_DAO {
         }
     }
 
+    public List<User> findAllActiveUsersAbleToMergeWithVoting(int voting_id) {
+        try {
+            List<User> users = new ArrayList<>();
+            PreparedStatement statement = conn.prepareStatement(ALL_ACTIVE_USERS_ABLE_TO_MERGE_WITH_VOTING);
+            statement.setInt(1, voting_id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<User> findAllAdmin() {
         try {
             List<User> users = new ArrayList<>();
@@ -229,60 +251,67 @@ public class User_DAO {
     }
 
     public void changeStatus(int user_id) {
-        try {
-            User user=read(user_id);
-            if(user.isNew()){
-                PreparedStatement statement =
-                        conn.prepareStatement(UPDATE_USER_OLD);
-                statement.setInt(1, user_id);
-                statement.executeUpdate();
-                return;
+        if (isUserNotLastAdmin(user_id)) {
+            try {
+                User user = read(user_id);
+                if (user.isNew()) {
+                    PreparedStatement statement =
+                            conn.prepareStatement(UPDATE_USER_OLD);
+                    statement.setInt(1, user_id);
+                    statement.executeUpdate();
+                    return;
+                }
+                if (user.isActive()) {
+                    PreparedStatement statement =
+                            conn.prepareStatement(INACTIVE_USER_QUERY);
+                    statement.setInt(1, user_id);
+                    statement.executeUpdate();
+                } else {
+                    PreparedStatement statement =
+                            conn.prepareStatement(ACTIVE_USER_QUERY);
+                    statement.setInt(1, user_id);
+                    statement.executeUpdate();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (NullPointerException n) {
             }
-            if(user.isActive()){
-                PreparedStatement statement =
-                        conn.prepareStatement(INACTIVE_USER_QUERY);
-                statement.setInt(1, user_id);
-                statement.executeUpdate();
-            } else{
-                PreparedStatement statement =
-                        conn.prepareStatement(ACTIVE_USER_QUERY);
-                statement.setInt(1, user_id);
-                statement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NullPointerException n){
         }
     }
 
-    public void changeAdminStatus(int user_id){
-        try {
-            User user=read(user_id);
-            if(user.isAdmin()){
-                PreparedStatement statement =
-                        conn.prepareStatement(INACTIVE_USER_ADMIN_QUERY);
-                statement.setInt(1, user_id);
-                statement.executeUpdate();
-            } else{
-                PreparedStatement statement =
-                        conn.prepareStatement(ACTIVE_USER_ADMIN_QUERY);
-                statement.setInt(1, user_id);
-                statement.executeUpdate();
+    public void changeAdminStatus(int user_id) {
+            try {
+                User user = read(user_id);
+                if (user.isAdmin()) {
+                    if (isUserNotLastAdmin(user_id)) {
+                        PreparedStatement statement =
+                                conn.prepareStatement(INACTIVE_USER_ADMIN_QUERY);
+                        statement.setInt(1, user_id);
+                        statement.executeUpdate();
+                    }
+                } else {
+                    PreparedStatement statement =
+                            conn.prepareStatement(ACTIVE_USER_ADMIN_QUERY);
+                    statement.setInt(1, user_id);
+                    statement.executeUpdate();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (NullPointerException n) {
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NullPointerException n){
         }
-    }
 
-    public void deleteUser(int user_id){
-        try {
+    public void deleteUser(int user_id) {
+
+        if (isUserNotLastAdmin(user_id)) {
+            try {
                 PreparedStatement statement =
                         conn.prepareStatement(DELETE_USER_QUERY);
                 statement.setInt(1, user_id);
                 statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -293,11 +322,22 @@ public class User_DAO {
         return true;
     }
 
-    private boolean ifUserExists(String email){
+    public boolean ifUserExists(String email){
         User_DAO user_dao=new User_DAO();
         User controlUser=user_dao.read(email);
         if (controlUser==null){
             return false;
+        }
+        return true;
+    }
+
+    private boolean isUserNotLastAdmin(int user_id){
+        User user=read(user_id);
+        if(user.isAdmin()) {
+            List<User> allAdmin = findAllAdmin();
+            if (allAdmin.size() == 1) {
+                return false;
+            }
         }
         return true;
     }

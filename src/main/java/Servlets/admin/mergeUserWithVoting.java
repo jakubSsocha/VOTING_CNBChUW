@@ -25,7 +25,7 @@ public class mergeUserWithVoting extends HttpServlet {
         User_DAO user_dao=new User_DAO();
         Voting_DAO voting_dao=new Voting_DAO();
 
-        List<User> users=user_dao.findAllActive();
+        List<User> users=user_dao.findAllActiveUsersAbleToMergeWithVoting(id);
         Voting voting=voting_dao.read(id);
 
         request.setAttribute("voting",voting);

@@ -16,7 +16,7 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="http://localhost:8080/voting_war_exploded/admin.jsp">Home</a></li>
+                <li class="active"><a href="http://localhost:8080/voting_war_exploded/adminMenu.jsp">Home</a></li>
                 <li><a href="http://localhost:8080/voting_war_exploded/allUsers">Users Menu</a></li>
                 <li><a href="http://localhost:8080/voting_war_exploded/allVotings">Votings Menu</a></li>
                 <li><a href="http://localhost:8080/voting_war_exploded/allResults">Results Menu</a></li>

@@ -6,11 +6,11 @@ import java.sql.SQLException;
 
 public class MySqlConnector {
     private final static String DATABASENAME = "glosowanieCNBCh";
+    private final static String USER = "root";
+    private final static String PASSWORD = "root";
 
     private final static String URL =
             "jdbc:mysql://localhost:3306/" + DATABASENAME + "?useSSL=false&characterEncoding=utf8&serverTimezone=UTC";
-    private final static String USER = "root";
-    private final static String PASSWORD = "root";
 
     public static Connection createConnection() {
         try {
