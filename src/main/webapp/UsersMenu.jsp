@@ -12,11 +12,11 @@
 </br><h3>Dodaj nowego użytkownika:</h3>
 <form action="addUser" method="post" class="form-horizontal">
     <label for="name" class="control-label col-sm-2">Nazwa użytkownika:</label>
-    <input id= "name" type=text" name="name" class="form-control"></br><br>
+    <input id= "name" type=text" name="name" class="form-control" required></br><br>
     <label for="email" class="control-label col-sm-2">E-mail:</label>
-    <input id="email" type="email" name="email" class="form-control"></br><br>
+    <input id="email" type="email" name="email" class="form-control" required></br><br>
     <label for="password" class="control-label col-sm-2">Hasło:</label>
-    <input id="password" type="text" name="password" class="form-control"></br></br>
+    <input id="password" type="text" name="password" class="form-control" required></br></br>
     <input class="btn btn-info" type='submit' value="Dodaj użytkownika"/>
 </br></br>
 </form>
@@ -39,8 +39,8 @@
             <td>${user.password}</td>
             <td>${user.added}</td>
             <td>${user.isActive ? "aktywne" : "nieaktywne"}</td>
-            <td><a href="http://localhost:8080/voting_war_exploded/changeUserStatus?id=${user.id}" class="btn btn-warning" role="button">Zmień status</a>
-                <a href="http://localhost:8080/voting_war_exploded/deleteUser?id=${user.id}" class="btn btn-danger" role="button">Usuń</a></td>
+            <td><a href="http://localhost:8080/voting_war_exploded/admin/changeUserStatus?id=${user.id}" class="btn btn-warning" role="button">Zmień status</a>
+                <a href="http://localhost:8080/voting_war_exploded/admin/deleteUser?id=${user.id}" class="btn btn-danger" role="button">Usuń</a></td>
         </tr>
     </c:forEach>
 </table>
@@ -66,10 +66,10 @@
             <td>${user.added}</td>
             <td>${user.isActive ? "aktywne" : "nieaktywne"}</td>
             <td><font color="#dc143c">${user.isAdmin ? "tak" : "nie"}</font></td>
-            <td><a href="http://localhost:8080/voting_war_exploded/changeUserStatus?id=${user.id}" class="btn btn-warning" role="button">Zmień status</a>
+            <td><a href="http://localhost:8080/voting_war_exploded/admin/changeUserStatus?id=${user.id}" class="btn btn-warning" role="button">Zmień status</a>
             <a href="#" class="btn btn-info" role="button">Zmień hasło</a>
-            <a href="http://localhost:8080/voting_war_exploded/changeAdminStatus?id=${user.id}" class="btn btn-primary" role="button">Admin status</a>
-            <a href="http://localhost:8080/voting_war_exploded/deleteUser?id=${user.id}" class="btn btn-danger" role="button">Usuń</a></td>
+            <a href="http://localhost:8080/voting_war_exploded/admin/changeAdminStatus?id=${user.id}" class="btn btn-primary" role="button">Admin status</a>
+            <a href="http://localhost:8080/voting_war_exploded/admin/deleteUser?id=${user.id}" class="btn btn-danger" role="button">Usuń</a></td>
         </tr>
     </c:forEach>
 </table>

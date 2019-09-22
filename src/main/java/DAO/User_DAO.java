@@ -38,8 +38,10 @@ public class User_DAO {
             "UPDATE users SET isAdmin=0 WHERE id = ?";
     private static final String ACTIVE_USER_ADMIN_QUERY =
             "UPDATE users SET isAdmin=1 WHERE id = ?";
-    private static final String ALL_ACTIVE_USERS_ABLE_TO_MERGE_WITH_VOTING =
+    private static final String ALL_ACTIVE_USERS_HAVE_NO_VOTING_ID =
             "SELECT * FROM users LEFT JOIN results ON users.id = results.user_id WHERE users.isActive=1 AND voting_id !=? OR voting_id IS NULL;";
+    private static final String ALL_ACTIVE_USERS_HAVE_VOTING_ID =
+            "SELECT * FROM users LEFT JOIN results ON users.id = results.user_id WHERE users.isActive=1 AND voting_id =?";
 
 
     public User create(User user) {
@@ -161,10 +163,29 @@ public class User_DAO {
         }
     }
 
-    public List<User> findAllActiveUsersAbleToMergeWithVoting(int voting_id) {
+    public List<User> findAllActiveUsersHaveVotingId(int voting_id) {
         try {
             List<User> users = new ArrayList<>();
-            PreparedStatement statement = conn.prepareStatement(ALL_ACTIVE_USERS_ABLE_TO_MERGE_WITH_VOTING);
+            PreparedStatement statement = conn.prepareStatement(ALL_ACTIVE_USERS_HAVE_VOTING_ID);
+            statement.setInt(1, voting_id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<User> findAllActiveUsersHaveNoVotingId(int voting_id) {
+        try {
+            List<User> users = new ArrayList<>();
+            PreparedStatement statement = conn.prepareStatement(ALL_ACTIVE_USERS_HAVE_NO_VOTING_ID);
             statement.setInt(1, voting_id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {

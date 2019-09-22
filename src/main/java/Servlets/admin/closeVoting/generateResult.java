@@ -4,6 +4,7 @@ import DAO.Result_DAO;
 import DAO.Voting_DAO;
 import Objects.Result;
 import Objects.Voting;
+import Objects.VotingResults;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,34 +26,9 @@ public class generateResult extends HttpServlet {
         Voting voting = voting_dao.read(votingId);
         request.setAttribute("voting", voting);
 
-        Result_DAO result_dao = new Result_DAO();
-        List<Result> resultList = result_dao.findAllVotingId(votingId);
-        int TAK = 0;
-        int NIE = 0;
-        int WST = 0;
-        for (Result r : resultList) {
-            if (r.getVote() == null) {
+        VotingResults vR = new VotingResults(votingId);
+        request.setAttribute("vR", vR);
 
-            } else {
-                if (r.getVote().equals("TAK")) {
-                    TAK++;
-                }
-                if (r.getVote().equals("NIE")) {
-                    NIE++;
-                }
-                if (r.getVote().equals("WST")) {
-                    WST++;
-                }
-            }
-        }
-        request.setAttribute("TAK", TAK);
-        request.setAttribute("NIE", NIE);
-        request.setAttribute("WST", WST);
-
-        getServletContext().
-
-                getRequestDispatcher("/DocumentVotingResult.jsp").
-
-                forward(request, response);
+        getServletContext().getRequestDispatcher("/DocumentVotingResult.jsp").forward(request, response);
     }
 }

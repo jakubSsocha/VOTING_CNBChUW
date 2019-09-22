@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/createResult")
+@WebServlet("/admin/createResult")
 public class createResult extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id=Integer.parseInt(request.getParameter("voting_id"));
@@ -22,7 +22,7 @@ public class createResult extends HttpServlet {
             Result result=new Result(id,user_id_int);
             result_dao.create(result);
         }
-        response.sendRedirect("http://localhost:8080/voting_war_exploded/allResults");
+        response.sendRedirect("http://localhost:8080/voting_war_exploded/admin/allResults");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

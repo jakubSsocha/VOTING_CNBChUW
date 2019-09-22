@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/addUser")
+@WebServlet("/admin/addUser")
 public class addUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name=request.getParameter("name");
@@ -19,7 +19,7 @@ public class addUser extends HttpServlet {
         User user=new User(name,email,password);
         User_DAO user_dao=new User_DAO();
         user_dao.create(user);
-        response.sendRedirect("http://localhost:8080/voting_war_exploded/allUsers");
+        response.sendRedirect("http://localhost:8080/voting_war_exploded/admin/allUsers");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -30,7 +30,9 @@ public class Logger extends HttpServlet {
             if (user.getPassword().equals(password)) {
                 if (user.isActive()) {
                     boolean isUserAdmin=user.isAdmin();
+                    boolean isUser=true;
                     HttpSession sess=request.getSession();
+                    sess.setAttribute("isUser", isUser);
                     sess.setAttribute("isUserAdmin",isUserAdmin);
                     sess.setAttribute("id",user.getId());
                     getServletContext().getRequestDispatcher("/Director").forward(request, response);

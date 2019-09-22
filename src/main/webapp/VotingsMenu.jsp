@@ -36,8 +36,8 @@
             <td>${voting.description}</td>
             <td>${voting.isActive ? "aktywne" : "nieaktywne"}</td>
             <td>${voting.created}</td>
-            <td><a href="http://localhost:8080/voting_war_exploded/changeVotingStatus?id=${voting.id}" class="btn btn-warning" role="button">Zmień status</a>
-            <a href="http://localhost:8080/voting_war_exploded/deleteVoting?id=${voting.id}" class="btn btn-danger" role="button">Usuń</a></td>
+            <td><a href="http://localhost:8080/voting_war_exploded/admin/changeVotingStatus?id=${voting.id}" class="btn btn-warning" role="button">Zmień status</a>
+            <a href="http://localhost:8080/voting_war_exploded/admin/deleteVoting?id=${voting.id}" class="btn btn-danger" role="button">Usuń</a></td>
         </tr>
     </c:forEach>
 </table></br></br>
@@ -59,10 +59,10 @@
             <td>${voting.description}</td>
             <td>${voting.isActive ? "aktywne" : "nieaktywne"}</td>
             <td>${voting.created}</td>
-            <td><a href="http://localhost:8080/voting_war_exploded/changeVotingStatus?id=${voting.id}" class="btn btn-warning" role="button">Zmień status</a>
-            <a href="http://localhost:8080/voting_war_exploded/closeVoting?id=${voting.id}" class="btn btn-success" role="button">Zakończ</a>
-            <a href="http://localhost:8080/voting_war_exploded/mergeUserWithVoting?id=${voting.id}" class="btn btn-info" role="button">Dodaj użytkowników</a>
-            <a href="http://localhost:8080/voting_war_exploded/deleteVoting?id=${voting.id}" class="btn btn-danger" role="button">Usuń</a></td>
+            <td><a href="http://localhost:8080/voting_war_exploded/admin/changeVotingStatus?id=${voting.id}" class="btn btn-warning" role="button">Zmień status</a>
+            <a href="http://localhost:8080/voting_war_exploded/admin/closeVoting?id=${voting.id}" class="btn btn-success" role="button">Zakończ</a>
+            <a href="http://localhost:8080/voting_war_exploded/admin/mergeUserWithVoting?id=${voting.id}" class="btn btn-info" role="button">Dodaj użytkowników</a>
+            <a href="http://localhost:8080/voting_war_exploded/admin/deleteVoting?id=${voting.id}" class="btn btn-danger" role="button">Usuń</a></td>
         </tr>
     </c:forEach>
 </table></br></br>
@@ -85,7 +85,7 @@
             <td>${voting.created}</td>
             <td>${voting.closedDate}</td>
             <td><a href="http://localhost:8080/voting_war_exploded/generateResult?id=${voting.id}" class="btn btn-primary" role="button">Pokaż wyniki</a>
-            <td><a href="http://localhost:8080/voting_war_exploded/deleteVoting?id=${voting.id}" class="btn btn-danger" role="button">Usuń</a></td>
+            <td><a href="http://localhost:8080/voting_war_exploded/admin/deleteVoting?id=${voting.id}" class="btn btn-danger" role="button">Usuń</a></td>
         </tr>
     </c:forEach>
 </table></br></br>

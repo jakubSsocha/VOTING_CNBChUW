@@ -35,8 +35,8 @@
             </c:forEach>
             <td>${result.vote}</td>
             <td>${result.isActive ? "aktywne" : "nieaktywne"}</td>
-            <td><a href="http://localhost:8080/voting_war_exploded/changeResultStatus?id=${result.id}" class="btn btn-warning" role="button">Change</a>
-            <a href="http://localhost:8080/voting_war_exploded/deleteResult?id=${result.id}" class="btn btn-danger" role="button">Delete</a></td>
+            <td><a href="http://localhost:8080/voting_war_exploded/admin/changeResultStatus?id=${result.id}" class="btn btn-warning" role="button">Change</a>
+            <a href="http://localhost:8080/voting_war_exploded/admin/deleteResult?id=${result.id}" class="btn btn-danger" role="button">Delete</a></td>
         </tr>
     </c:forEach>
 </table>

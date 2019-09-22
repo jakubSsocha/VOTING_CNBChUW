@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/deleteResult")
+@WebServlet("/admin/deleteResult")
 public class deleteResult extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -18,6 +18,6 @@ public class deleteResult extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Result_DAO result_dao=new Result_DAO();
         result_dao.delete(Integer.parseInt(request.getParameter("id")));
-        response.sendRedirect("http://localhost:8080/voting_war_exploded/allResults");
+        response.sendRedirect("http://localhost:8080/voting_war_exploded/admin/allResults");
     }
 }

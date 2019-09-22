@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/mergeUserWithVoting")
+@WebServlet("/admin/mergeUserWithVoting")
 public class mergeUserWithVoting extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -25,7 +25,7 @@ public class mergeUserWithVoting extends HttpServlet {
         User_DAO user_dao=new User_DAO();
         Voting_DAO voting_dao=new Voting_DAO();
 
-        List<User> users=user_dao.findAllActiveUsersAbleToMergeWithVoting(id);
+        List<User> users=user_dao.findAllActive();
         Voting voting=voting_dao.read(id);
 
         request.setAttribute("voting",voting);

@@ -11,17 +11,17 @@ public class Result_DAO {
     Connection conn= MySqlConnector.createConnection();
 
     private static final String CREATE_RESULT_QUERY =
-            "INSERT INTO results(voting_id, user_id, vote) VALUES (?, ?, ?)";
+            "INSERT INTO results(voting_id, user_id, vote, isActive) VALUES (?, ?, ?, 1)";
     private static final String READ_RESULT_QUERY =
             "SELECT * FROM results WHERE id = ?";
     private static final String READ_RESULT_QUERY_VOTING_USER =
             "SELECT * FROM results WHERE voting_id = ? AND user_id = ?";
     private static final String VOTE_RESULT_QUERY =
-            "UPDATE results SET vote = ?, isActive=0 WHERE id = ?";
+            "UPDATE results SET vote = ?, isActive=0, modified=CURRENT_TIMESTAMP WHERE id = ?";
     private static final String INACTIVE_RESULT_QUERY =
             "UPDATE results SET isActive=0 WHERE id = ?";
     private static final String ACTIVE_RESULT_QUERY =
-            "UPDATE results SET isActive=1, vote=null WHERE id = ?";
+            "UPDATE results SET isActive=1, vote=null, modified=null WHERE id = ?";
     private static final String FIND_ALL_RESULTS_QUERY =
             "SELECT * FROM results ORDER BY id ASC";
     private static final String FIND_ALL_RESULTS_BY_VOTING_ID_QUERY =
