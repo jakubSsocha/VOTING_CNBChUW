@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page session="true" %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -10,7 +11,12 @@
     <title>Zagłosuj</title>
 </head>
 <body>
+
+<% if (session.getAttribute("isUserAdmin") == "false") { %>
 <%@ include file="/jspFiles/headers/headerUser.jsp" %>
+<% } else {%>
+<%@ include file="headerAdmin.jsp" %>
+<% } %>
 
 <h3>Oddaj głos:</h3>
 <table class="table table-condensed">
