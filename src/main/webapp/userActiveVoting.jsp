@@ -11,11 +11,12 @@
     <title>Zagłosuj</title>
 </head>
 <body>
+<% boolean isUserAdmin= (boolean)session.getAttribute("isUserAdmin"); %>
 
-<% if (session.getAttribute("isUserAdmin") == "false") { %>
-<%@ include file="/jspFiles/headers/headerUser.jsp" %>
-<% } else {%>
+<% if (isUserAdmin) { %>
 <%@ include file="headerAdmin.jsp" %>
+<% } else {%>
+<%@ include file="/jspFiles/headers/headerUser.jsp" %>
 <% } %>
 
 <h3>Oddaj głos:</h3>
